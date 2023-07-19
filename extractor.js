@@ -12,7 +12,7 @@ if (!argv.regionsTitleDump || !argv.isoTitleDump || !argv.out) {
 	console.log('--regions-title-dump\tPath to title 0005001B-10052000 dump');
 	console.log('--iso-title-dump\tPath to title 0005001B-1005C000 dump');
 	console.log('--out\t\t\tPath to write regions.json to');
-	//return;
+	return;
 }
 
 const regionsTitleDumpBase = path.resolve(argv.regionsTitleDump);
