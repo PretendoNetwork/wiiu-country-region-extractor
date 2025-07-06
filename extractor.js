@@ -29,6 +29,8 @@ const isoCodeNameMap = fs.readFileSync(isoCodeListFile)
 	.split(',')
 	.map(code => code.replace('\n', '').replace('\r', '').replace(/"/g, ''));
 
+const cleanRegionId = val => parseInt((val & 0x00FFFFFF).toString(16).replace(/0+/g, ''), 16) || 0;
+
 const translationNameMap = [
 	'japanese',
 	'english',
@@ -145,6 +147,7 @@ function parseRegionsFile(buffer) {
 	for (let i = -1; i < numberOfRegions; i++) {
 		const region = {
 			id: 0,
+			full_id: 0,
 			name: '',
 			translations: {
 				japanese: '',
@@ -170,7 +173,8 @@ function parseRegionsFile(buffer) {
 			}
 		};
 
-		region.id = stream.readUInt32BE();
+		region.full_id = stream.readUInt32BE();
+		region.id = cleanRegionId(region.full_id);
 
 		for (let j = 0; j < 16; j++) {
 			const name = stream.readBytes(0x80).swap16().toString('utf16le').replace(/\0.*$/, '');
@@ -184,7 +188,7 @@ function parseRegionsFile(buffer) {
 
 		region.coordinates = unpackCoordinates(latitude, longitude);
 
-		if ((region.id & 0x00FFFFFF) === 0) {
+		if ((region.full_id & 0x00FFFFFF) === 0) {
 			region.name = 'Unspecified';
 		} else {
 			region.name = region.translations.english;
@@ -193,7 +197,7 @@ function parseRegionsFile(buffer) {
 		regions.push(region);
 	}
 
-	const sorted = regions.sort((a, b) => a.id - b.id);
+	const sorted = regions.sort((a, b) => a.full_id - b.full_id);
 
 	return sorted;
 }

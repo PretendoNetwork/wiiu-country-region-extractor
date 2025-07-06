@@ -56,11 +56,12 @@ $ node . --regions-title-dump=path/to/0005001b-10052000 --iso-title-dump=path/to
 }
 ```
 
-`regions` is an array of region objects for each region inside a country. All objects are sorted by their `id` property from smallest to largest. The structure is
+`regions` is an array of region objects for each region inside a country. All objects are sorted by their `full_id` property from smallest to largest. The structure is
 
 ```json
 {
-	"id": 1234567890,
+	"id": 123,
+	"full_id": 1234567890,
 	"name": "Region Name",
 	"translations": {
 		"japanese": "Region Name Translation",
