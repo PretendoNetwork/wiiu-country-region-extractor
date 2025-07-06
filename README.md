@@ -61,6 +61,7 @@ $ node . --regions-title-dump=path/to/0005001b-10052000 --iso-title-dump=path/to
 ```json
 {
 	"id": 1234567890,
+	"individual_id": 123,
 	"name": "Region Name",
 	"translations": {
 		"japanese": "Region Name Translation",

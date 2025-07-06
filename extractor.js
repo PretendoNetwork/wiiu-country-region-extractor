@@ -29,6 +29,7 @@ const isoCodeNameMap = fs.readFileSync(isoCodeListFile)
 	.split(',')
 	.map(code => code.replace('\n', '').replace('\r', '').replace(/"/g, ''));
 
+
 const translationNameMap = [
 	'japanese',
 	'english',
@@ -145,6 +146,7 @@ function parseRegionsFile(buffer) {
 	for (let i = -1; i < numberOfRegions; i++) {
 		const region = {
 			id: 0,
+			individual_id: 0,
 			name: '',
 			translations: {
 				japanese: '',
@@ -171,6 +173,7 @@ function parseRegionsFile(buffer) {
 		};
 
 		region.id = stream.readUInt32BE();
+		region.individual_id = (region.id >> 16) & 0xFF;
 
 		for (let j = 0; j < 16; j++) {
 			const name = stream.readBytes(0x80).swap16().toString('utf16le').replace(/\0.*$/, '');
